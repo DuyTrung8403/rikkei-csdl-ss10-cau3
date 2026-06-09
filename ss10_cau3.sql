@@ -18,7 +18,7 @@ CREATE TABLE employees_log
 );
 
 -- Viết Function Trigger bằng PL/pgSQL
-CREATE OR REPLACE FUNCTION tg_employees_audit_log()
+CREATE OR REPLACE FUNCTION check_employees_audit()
     RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
@@ -45,7 +45,7 @@ CREATE OR REPLACE TRIGGER trg_employees_audit
     AFTER INSERT OR UPDATE OR DELETE
     ON employees
     FOR EACH ROW
-EXECUTE FUNCTION tg_employees_audit_log();
+EXECUTE FUNCTION check_employees_audit();
 
 -- Thực hành: chèn, cập nhật và xóa dữ liệu nhân viên, kiểm tra log có chính xác không
 INSERT INTO employees (name, position, salary) VALUES ('Nguyen Duy Trung', 'Backend Developer', 20000000);
